@@ -19,6 +19,11 @@ https://medium.com/@kyle.galbraith/how-to-host-a-website-on-s3-without-getting-l
 - provide convenient trigger point for data download
 
 
+## AWS Lambda layers
+
+https://towardsdatascience.com/introduction-to-amazon-lambda-layers-and-boto3-using-python3-39bd390add17
+
+
 ## MySQL database on AWS
 
 ### Set up database
