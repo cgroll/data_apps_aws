@@ -1,6 +1,6 @@
 import sys
 
-from src.paths import ProjectPaths
+from data_apps_aws.src.paths import ProjectPaths
 
 try:
     sys.path.append(str(ProjectPaths.secret_path))
