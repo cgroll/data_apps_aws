@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from fredapi import Fred
 import numpy as np
