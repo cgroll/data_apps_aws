@@ -19,10 +19,28 @@ https://medium.com/@kyle.galbraith/how-to-host-a-website-on-s3-without-getting-l
 - provide convenient trigger point for data download
 
 
+## Python packages
+
+https://python-packaging.readthedocs.io/en/latest/minimal.html
+
+- install local package:
+
+python setup.py clean --all develop clean --all
+
 ## AWS Lambda layers
+
+- most important: must replicate the complete file structure for
+  python packages (to site-packages folder)
+- own code can be put into site-packages as well (full repo folder)
 
 https://towardsdatascience.com/introduction-to-amazon-lambda-layers-and-boto3-using-python3-39bd390add17
 
+
+## Run AWS function as cron job
+
+- through cloudwatch event:
+
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/RunLambdaSchedule.html
 
 ## MySQL database on AWS
 
