@@ -42,6 +42,11 @@ https://towardsdatascience.com/introduction-to-amazon-lambda-layers-and-boto3-us
 
 https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/RunLambdaSchedule.html
 
+## API Gateway to invoke AWS lambda functions
+
+https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html
+
+
 ## MySQL database on AWS
 
 ### Set up database
