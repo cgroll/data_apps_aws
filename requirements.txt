@@ -18,3 +18,5 @@ sqlalchemy
 prettytable
 pymysql
 boto3
+quandl
+python-lambda
