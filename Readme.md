@@ -35,6 +35,7 @@ python setup.py clean --all develop clean --all
 
 https://towardsdatascience.com/introduction-to-amazon-lambda-layers-and-boto3-using-python3-39bd390add17
 
+https://nordcloud.com/lambda-layers-for-python-runtime/
 
 ## Run AWS function as cron job
 
@@ -45,6 +46,14 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/RunLambdaSchedule.htm
 ## API Gateway to invoke AWS lambda functions
 
 https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html
+
+
+## Deploy to AWS lambda
+
+https://hackersandslackers.com/improve-your-aws-lambda-workflow-with-python-lambda/
+https://github.com/nficano/python-lambda
+
+python3.7 get_prod_data.py -p SC -r 20200406-1005 -s 'rJAZJn8BvpZqxnVHu4i8GA' 'uVuT4jZDLv44aAzCWW2oL5' 'ty5ER2P7gYqgziJ8ZhNgbi' 'm7vRpw63kWzs651mKYxaeV' 'tuQehS4RjHcPsF5q5axN1A' 'h3R2EWvq5BuuKaJHFXnLsZ' 'bpv2MqNcaBpt2GswPmafMj' 'hEvmDBtSyDR5aNTutCG1AJ' 
 
 
 ## MySQL database on AWS
