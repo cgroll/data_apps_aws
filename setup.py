@@ -24,7 +24,7 @@ setup(name=DISTNAME,
         version=VERSION,
         download_url=DOWNLOAD_URL,
         install_requires=install_requires,
-        packages=['data_apps_aws', 'data_apps_aws.data_pipes'],
+        packages=['data_apps_aws', 'data_apps_aws.src_data_pipes'],
         classifiers=[
                      'Intended Audience :: Science/Research',
                      'Programming Language :: Python :: 2.7',
