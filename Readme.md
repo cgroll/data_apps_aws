@@ -14,10 +14,12 @@ https://medium.com/@kyle.galbraith/how-to-host-a-website-on-s3-without-getting-l
 
 ## TODOs:
 
+- get environment variables secretly into AWS SAM templates
+- separate lambda function / layer
+- render notebooks with AWS Fargate
+- provide convenient trigger point for data download
 - add last-updated timestamps to database
 - allow incremental data update
-- provide convenient trigger point for data download
-
 
 ## Python packages
 
@@ -53,7 +55,11 @@ https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-
 https://hackersandslackers.com/improve-your-aws-lambda-workflow-with-python-lambda/
 https://github.com/nficano/python-lambda
 
-python3.7 get_prod_data.py -p SC -r 20200406-1005 -s 'rJAZJn8BvpZqxnVHu4i8GA' 'uVuT4jZDLv44aAzCWW2oL5' 'ty5ER2P7gYqgziJ8ZhNgbi' 'm7vRpw63kWzs651mKYxaeV' 'tuQehS4RjHcPsF5q5axN1A' 'h3R2EWvq5BuuKaJHFXnLsZ' 'bpv2MqNcaBpt2GswPmafMj' 'hEvmDBtSyDR5aNTutCG1AJ' 
+
+## AWS SAM
+
+https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-i-using-the-sam-cli.html
+https://aws.amazon.com/blogs/compute/working-with-aws-lambda-and-lambda-layers-in-aws-sam/
 
 
 ## MySQL database on AWS

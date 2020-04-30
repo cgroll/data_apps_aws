@@ -20,3 +20,6 @@ pymysql
 boto3
 quandl
 python-lambda
+awscli
+aws-sam-cli
+pytest-mock

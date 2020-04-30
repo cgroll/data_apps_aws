@@ -1,7 +1,7 @@
 import sqlalchemy
 import pandas as pd
 
-from data_apps_aws.src.passwords import get_db_password, get_db_url, get_db_user
+from data_apps_aws.passwords import get_db_password, get_db_url, get_db_user
 
 def get_engine_str(db_environment):
     # Retrieve username, password, url
