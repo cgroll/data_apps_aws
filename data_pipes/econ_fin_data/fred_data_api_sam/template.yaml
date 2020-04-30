@@ -19,6 +19,13 @@ Resources:
       CodeUri: fred_metadata/
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          IS_DEPLOYED: ${IS_DEPLOYED}
+          econ_data_password: ${econ_data_password}
+          econ_data_url: ${econ_data_url}
+          econ_data_user: ${econ_data_user}
+          fred_api_token: ${fred_api_token}
       Events:
         FredMetadata:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
