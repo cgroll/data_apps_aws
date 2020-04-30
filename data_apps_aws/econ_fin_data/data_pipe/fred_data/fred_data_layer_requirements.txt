@@ -1,4 +1,0 @@
-pandas
-fredapi
-sqlalchemy
-pymysql

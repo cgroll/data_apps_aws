@@ -43,7 +43,7 @@ if IS_DEPLOYED == "True":
 else:
 
     import sys
-    from data_apps_aws.src.paths import ProjectPaths
+    from data_apps_aws.paths import ProjectPaths
 
     try:
         sys.path.append(str(ProjectPaths.secret_path))
