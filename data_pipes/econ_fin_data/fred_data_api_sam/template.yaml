@@ -12,6 +12,28 @@ Globals:
     MemorySize: 2048
     Runtime: python3.7
 
+Parameters:
+
+    ISDEPLOYED:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    DBPWD:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    DBURL:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    DBUSER:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    APITOKEN:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
 Resources:
   FredMetadataFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -21,17 +43,21 @@ Resources:
       Runtime: python3.7
       Environment:
         Variables:
-          IS_DEPLOYED: ${IS_DEPLOYED}
-          econ_data_password: ${econ_data_password}
-          econ_data_url: ${econ_data_url}
-          econ_data_user: ${econ_data_user}
-          fred_api_token: ${fred_api_token}
+          IS_DEPLOYED: !Ref ISDEPLOYED
+          econ_data_password: !Ref DBPWD
+          econ_data_url: !Ref DBURL
+          econ_data_user: !Ref DBUSER
+          fred_api_token: !Ref APITOKEN
       Events:
         FredMetadata:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /FredMetadata
             Method: get
+        ScheduledFredMetadata:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0/10 * ? * MON-FRI *)
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
