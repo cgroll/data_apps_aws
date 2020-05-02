@@ -10,3 +10,4 @@ api_landing_page/output/
 events/
 tests/
 data_apps_aws.egg-info/
+/render_notebook/Makefile
