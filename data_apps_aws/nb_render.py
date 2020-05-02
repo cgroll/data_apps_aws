@@ -35,7 +35,7 @@ def render_nb(nb_name, output_path, jpynb_output_name, tpl_name='./jupyter_hide_
 
     except Exception as e:
 
-        print(f"Exception while rendering {jpynb_name}:")
+        print(f"Exception while rendering {nb_name}:")
         error_msg = scrape_original_trace(e.traceback)
         # print(e.traceback)
         # print(error_msg)

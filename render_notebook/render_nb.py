@@ -1,32 +1,45 @@
 import os
 from data_apps_aws.nb_render import render_nb
 
-# Download notebook to be rendered
-nb_name = 'index'
-fname = 'https://raw.githubusercontent.com/cgroll/data_apps_aws/master/notebooks/' + nb_name + '.ipynb'
-local_name = nb_name + '.ipynb'
-out_name = nb_name
+notebook_list = ['index',
+                 'macro_econ_release_data'
+                 ]
 
-cmd_str = f'curl -o {local_name} {fname}'
-os.system(cmd_str)
+def download_render_upload_notebook(nb_name_no_extension):
+    # Download notebook to be rendered
+    fname = 'https://raw.githubusercontent.com/cgroll/data_apps_aws/master/notebooks/' + nb_name_no_extension + '.ipynb'
+    local_name = nb_name_no_extension + '.ipynb'
 
-
-# Download template file that defines rendering output
-tpl_name = 'jupyter_hide_code_export.tpl'
-fname = 'https://raw.githubusercontent.com/cgroll/data_apps_aws/master/api_landing_page/' + tpl_name
-
-cmd_str = f'curl -o {tpl_name} {fname}'
-os.system(cmd_str)
+    cmd_str = f'curl -o {local_name} {fname}'
+    os.system(cmd_str)
 
 
-# render the notebook locally
-render_nb(local_name, './output/', out_name)
+    # Download template file that defines rendering output
+    tpl_name = 'jupyter_hide_code_export.tpl'
+    fname = 'https://raw.githubusercontent.com/cgroll/data_apps_aws/master/api_landing_page/' + tpl_name
+
+    cmd_str = f'curl -o {tpl_name} {fname}'
+    os.system(cmd_str)
 
 
-# upload notebook to s3
-html_out_name = out_name + '.html'
-local_html_out_path = './output/' + html_out_name
+    # render the notebook locally
+    render_nb(local_name, './output/', nb_name_no_extension)
 
-# Note: use AWS client. With Boto3 the file metadata did get screwed
-aws_cli_cmd = f'aws s3 cp {local_html_out_path} s3://notebook-html-file-server/'
-os.system(aws_cli_cmd)
+    # upload notebook to s3
+    html_out_name = nb_name_no_extension + '.html'
+    local_html_out_path = './output/' + html_out_name
+
+    # Note: use AWS client. With Boto3 the file metadata did get screwed
+    aws_cli_cmd = f'aws s3 cp {local_html_out_path} s3://notebook-html-file-server/'
+    os.system(aws_cli_cmd)
+
+
+for this_nb in notebook_list:
+
+    try:
+        print(f'Rendering {this_nb}')
+        download_render_upload_notebook(this_nb)
+        print(f'Rendering successful')
+    except:
+        print('Rending not successful')
+
