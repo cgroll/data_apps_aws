@@ -18,9 +18,9 @@ if IS_DEPLOYED == "True":
                       "url": os.getenv('econ_data_url', 'NOT_DEFINED_URL'),
                       },
 
-        "econ_data_read": {"user": os.getenv('econ_data_read_user', 'NOT_DEFINED'),
-                           "password": os.getenv('econ_data_read_password', 'NOT_DEFINED'),
-                           "url": os.getenv('econ_data_read_url', 'NOT_DEFINED'),
+        "econ_data_read": {"user": os.getenv('econ_data_read_user', 'NOT_DEFINED_USER'),
+                           "password": os.getenv('econ_data_read_password', 'NOT_DEFINED_PWD'),
+                           "url": os.getenv('econ_data_read_url', 'NOT_DEFINED_URL'),
                            },
     }
 
