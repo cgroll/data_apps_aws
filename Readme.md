@@ -12,6 +12,16 @@ https://aws.amazon.com/getting-started/hands-on/build-serverless-web-app-lambda-
 https://medium.com/@kyle.galbraith/how-to-host-a-website-on-s3-without-getting-lost-in-the-sea-e2b82aa6cd38
 
 
+## Webpage url
+
+http://notebook-html-file-server.s3-website-eu-west-1.amazonaws.com/
+
+- Note: html files come with metadata that defines how the file will
+  be interpreted. Using Boto3 for uploading did mess with this
+  metadata. As a consequence the html file was not interpreted and
+  displayed by the browser, but the file was just downloaded as html
+  file instead.
+
 ## TODOs:
 
 - get environment variables secretly into AWS SAM templates
