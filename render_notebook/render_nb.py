@@ -2,7 +2,7 @@ import os
 from data_apps_aws.nb_render import render_nb
 
 # Download notebook to be rendered
-nb_name = 'hello_world_aws_sam'
+nb_name = 'index'
 fname = 'https://raw.githubusercontent.com/cgroll/data_apps_aws/master/notebooks/' + nb_name + '.ipynb'
 local_name = nb_name + '.ipynb'
 out_name = nb_name
