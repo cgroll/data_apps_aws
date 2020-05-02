@@ -31,5 +31,5 @@ sudo docker run -t notebook_renderer
 Connect to docker container in terminal in order to interactively
 play around with it:
 
-sudo docker run -it --entrypoint /bin/bash dash_asset_insp
+sudo docker run -it --entrypoint /bin/bash 903297788248.dkr.ecr.eu-west-1.amazonaws.com/notebook-renderer
 
