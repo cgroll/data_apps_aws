@@ -13,9 +13,9 @@ if IS_DEPLOYED == "True":
         'fred': {'api_token': os.getenv('fred_api_token', 'NOT_DEFINED')
                  },
 
-        "econ_data": {"user": os.getenv('econ_data_user', 'NOT_DEFINED'),
-                      "password": os.getenv('econ_data_password', 'NOT_DEFINED'),
-                      "url": os.getenv('econ_data_url', 'NOT_DEFINED'),
+        "econ_data": {"user": os.getenv('econ_data_user', 'NOT_DEFINED_USER'),
+                      "password": os.getenv('econ_data_password', 'NOT_DEFINED_PWD'),
+                      "url": os.getenv('econ_data_url', 'NOT_DEFINED_URL'),
                       },
 
         "econ_data_read": {"user": os.getenv('econ_data_read_user', 'NOT_DEFINED'),

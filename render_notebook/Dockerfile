@@ -14,7 +14,7 @@ ARG econ_data_url
 ENV AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 ENV AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 ENV AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
-ENV IS_DEPLOY=True
+ENV IS_DEPLOYED=True
 ENV econ_data_user=$econ_data_user
 ENV econ_data_password=$econ_data_password
 ENV econ_data_url=$econ_data_url
