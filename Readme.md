@@ -59,6 +59,7 @@ https://github.com/nficano/python-lambda
 ## AWS SAM
 
 https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-i-using-the-sam-cli.html
+https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-ii-template-and-architecture.html
 https://aws.amazon.com/blogs/compute/working-with-aws-lambda-and-lambda-layers-in-aws-sam/
 
 

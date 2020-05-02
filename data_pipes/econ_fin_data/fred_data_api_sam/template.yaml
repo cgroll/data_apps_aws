@@ -5,12 +5,12 @@ Description: >
 
   Sample SAM Template for fred_data_api_sam
 
+# Open TODOs:
+# - split out lambda layer (how can this be maintained by AWS SAM?)
+# - use AWS parameter store to transmit secret environment variables
+#   during deploy
+
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
-Globals:
-  Function:
-    Timeout: 600
-    MemorySize: 2048
-    Runtime: python3.7
 
 Parameters:
 
@@ -34,20 +34,28 @@ Parameters:
         Description: 'Required. The Database username'
         Type: 'String'
 
+Globals:
+  Function:
+    Timeout: 600
+    MemorySize: 2048
+    Runtime: python3.7
+    Environment:
+      Variables:
+        IS_DEPLOYED: !Ref ISDEPLOYED
+        econ_data_password: !Ref DBPWD
+        econ_data_url: !Ref DBURL
+        econ_data_user: !Ref DBUSER
+        fred_api_token: !Ref APITOKEN
+
 Resources:
   FredMetadataFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: .
       Handler: lambda_fred_metadata.lambda_handler
+#      Layers:
+#        - !Ref FredDataPipeLayer
       Runtime: python3.7
-      Environment:
-        Variables:
-          IS_DEPLOYED: !Ref ISDEPLOYED
-          econ_data_password: !Ref DBPWD
-          econ_data_url: !Ref DBURL
-          econ_data_user: !Ref DBUSER
-          fred_api_token: !Ref APITOKEN
       Events:
         FredMetadata:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -58,6 +66,36 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: cron(0 13 ? * MON-FRI *)
+
+  FredNowcastDataFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: .
+      Handler: lambda_fred_nowcast_data.lambda_handler
+#      Layers:
+#        - !Ref FredDataPipeLayer
+      Runtime: python3.7
+      Events:
+        TriggerFredNowcastData:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /FredNowcastTrigger
+            Method: get
+        ScheduledFredNowcastData:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 13 ? * MON-FRI *)
+
+#  FredDataPipeLayer:
+#        Type: AWS::Serverless::LayerVersion
+#        Properties:
+#            LayerName: fred-data-pipe-dependencies
+#            Description: Dependencies for Fred data download
+#            ContentUri: dependencies/requirements.txt
+#            CompatibleRuntimes:
+#              - python3.7
+#            LicenseInfo: 'MIT'
+#            RetentionPolicy: Retain
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
