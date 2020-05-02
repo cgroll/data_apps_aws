@@ -38,5 +38,5 @@ def render_nb(nb_name, output_path, jpynb_output_name, tpl_name='./jupyter_hide_
         print(f"Exception while rendering {nb_name}:")
         error_msg = scrape_original_trace(e.traceback)
         # print(e.traceback)
-        # print(error_msg)
-        rethrow_error = True
+        print(error_msg)
+        # rethrow_error = True

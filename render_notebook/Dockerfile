@@ -22,6 +22,7 @@ ENV econ_data_url=$econ_data_url
 COPY ./requirements.txt ./requirements.txt
 RUN cd $APP_HOME && pip install -r requirements.txt
 RUN cd $APP_HOME
+RUN mkdir ./output
 
 COPY ./render_nb.py ./render_nb.py
 
