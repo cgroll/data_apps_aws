@@ -1,8 +1,7 @@
 import os
 from data_apps_aws.nb_render import render_nb
 
-
-# ## Download notebook to be rendered
+# Download notebook to be rendered
 nb_name = 'hello_world_aws_sam'
 fname = 'https://raw.githubusercontent.com/cgroll/data_apps_aws/master/notebooks/' + nb_name + '.ipynb'
 local_name = nb_name + '.ipynb'
@@ -12,7 +11,7 @@ cmd_str = f'curl -o {local_name} {fname}'
 os.system(cmd_str)
 
 
-# ## Download template file that defines rendering output
+# Download template file that defines rendering output
 tpl_name = 'jupyter_hide_code_export.tpl'
 fname = 'https://raw.githubusercontent.com/cgroll/data_apps_aws/master/api_landing_page/' + tpl_name
 

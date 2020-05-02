@@ -25,7 +25,7 @@ sudo docker build . -t notebook_renderer
 
 Run docker and serve application locally:
 ```
-sudo docker run -t -p 8080:8080 dash_asset_insp
+sudo docker run -t notebook_renderer
 ```
 
 Connect to docker container in terminal in order to interactively
