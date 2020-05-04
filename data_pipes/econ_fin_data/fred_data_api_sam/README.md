@@ -47,3 +47,28 @@ CREATE TABLE fred_metadata (
   last_updated_here datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ticker`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+
+CREATE TABLE ECB_CISS (
+  resource_id  varchar(20) NOT NULL,
+  FREQ varchar(20),
+  REF_AREA varchar(20),
+  PROVIDER_FM_ID varchar(20),
+  DATA_TYPE_FM varchar(20),
+  TIME_PERIOD datetime,
+  value double DEFAULT NULL,
+  last_updated_here datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`resource_id`,`FREQ`,`REF_AREA`, `PROVIDER_FM_ID`, `DATA_TYPE_FM`, `TIME_PERIOD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+
+CREATE TABLE ECB_metadata (
+  resource_id varchar(20) NOT NULL,
+  concept_code varchar(20) NOT NULL,
+  concept_name text,
+  value_code varchar(20) NOT NULL,
+  value_name text,
+  last_updated_here datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`resource_id`, `concept_code`, `value_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
