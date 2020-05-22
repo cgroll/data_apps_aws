@@ -1,5 +1,6 @@
 import os
 from data_apps_aws.nb_render import render_nb
+from data_apps_aws.slack_bots import slack_rendering_error, slack_status_update
 
 notebook_list = ['index',
                  'macro_econ_release_data'
@@ -40,6 +41,9 @@ for this_nb in notebook_list:
         print(f'Rendering {this_nb}')
         download_render_upload_notebook(this_nb)
         print(f'Rendering successful')
+        slack_status_update(this_nb)
+        
     except:
         print('Rending not successful')
+        slack_rendering_error(this_nb)
 
