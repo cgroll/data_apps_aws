@@ -13,6 +13,9 @@ if IS_DEPLOYED == "True":
         'fred': {'api_token': os.getenv('fred_api_token', 'NOT_DEFINED')
                  },
 
+        'slack_bot_webhook': {'url': os.getenv('slack_bot_webhook', 'NOT_DEFINED')
+                 },
+
         "econ_data": {"user": os.getenv('econ_data_user', 'NOT_DEFINED_USER'),
                       "password": os.getenv('econ_data_password', 'NOT_DEFINED_PWD'),
                       "url": os.getenv('econ_data_url', 'NOT_DEFINED_URL'),
@@ -46,8 +49,9 @@ else:
     from data_apps_aws.paths import ProjectPaths
 
     try:
+        
         sys.path.append(str(ProjectPaths.secret_path))
-        import passwords.secrets as sc
+        import passwords.secrets as secrets
 
     except ImportError:
         print('The import of database passwords did not work.\n' +
@@ -67,16 +71,16 @@ else:
 
 
     def get_api_token(db_name):
-        return sc.db_connections[db_name]['api_token']
+        return secrets.db_connections[db_name]['api_token']
 
 
     def get_db_url(db_name):
-        return sc.db_connections[db_name]['url']
+        return secrets.db_connections[db_name]['url']
 
 
     def get_db_password(db_name):
-        return sc.db_connections[db_name]['password']
+        return secrets.db_connections[db_name]['password']
 
 
     def get_db_user(db_name):
-        return sc.db_connections[db_name]['user']
+        return secrets.db_connections[db_name]['user']
