@@ -19,7 +19,7 @@ ENV IS_DEPLOYED=True
 ENV econ_data_read_user=$econ_data_read_user
 ENV econ_data_read_password=$econ_data_read_password
 ENV econ_data_read_url=$econ_data_read_url
-ARG slack_bot_webhook=$slack_bot_webhook
+ENV slack_bot_webhook=$slack_bot_webhook
 
 COPY ./requirements.txt ./requirements.txt
 RUN cd $APP_HOME && pip install -r requirements.txt
