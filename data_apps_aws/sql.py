@@ -43,6 +43,25 @@ def delete_all_table_rows(table_name, db_con):
 
     db_con.execute(query)
 
+def delete_table_rows_matching_single_eq_condition(table_name, db_con, col_cond, val_cond):
+
+    query = f"""
+        DELETE FROM {table_name}
+        WHERE {col_cond} = "{val_cond}"
+        """
+
+    db_con.execute(query)
+
+
+def delete_table_rows_date_greater_than(table_name, db_con, date_col, val_cond):
+
+    query = f"""
+        DELETE FROM {table_name}
+        WHERE {date_col} >= "{val_cond}"
+        """
+
+    db_con.execute(query)
+
 
 def upload_df_to_table(this_df, table_name, db_con, index=False, if_exists='append'):
 
@@ -53,4 +72,18 @@ def overwrite_db_table_from_df(this_df, table_name, db_con, index=False):
 
     delete_all_table_rows(table_name, db_con)
     upload_df_to_table(this_df, table_name, db_con, index=index, if_exists='append')
+
+
+def overwrite_db_table_from_df_matching_single_eq_condition(this_df, table_name, db_con, col_cond, val_cond, index=False):
+
+    delete_table_rows_matching_single_eq_condition(table_name, db_con, col_cond, val_cond)
+    upload_df_to_table(this_df, table_name, db_con, index=index, if_exists='append')
+
+
+def overwrite_db_table_from_df_date_greater_than(this_df, table_name, db_con, date_col, val_cond, index=False):
+
+    delete_table_rows_date_greater_than(table_name, db_con, date_col, val_cond)
+    upload_df_to_table(this_df, table_name, db_con, index=index, if_exists='append')
+
+
 
