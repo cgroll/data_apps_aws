@@ -57,7 +57,7 @@ CREATE TABLE ECB_CISS (
   DATA_TYPE_FM varchar(20),
   TIME_PERIOD datetime,
   value double DEFAULT NULL,
-  last_updated_here datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  last_updated datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`,`FREQ`,`REF_AREA`, `PROVIDER_FM_ID`, `DATA_TYPE_FM`, `TIME_PERIOD`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
@@ -68,7 +68,28 @@ CREATE TABLE ECB_metadata (
   concept_name text,
   value_code varchar(20) NOT NULL,
   value_name text,
-  last_updated_here datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  last_updated datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`, `concept_code`, `value_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
+
+CREATE TABLE ECB_IRS (
+  resource_id varchar(20) NOT NULL,
+  REF_AREA varchar(20),
+  CURRENCY_TRANS varchar(20),
+  TIME_PERIOD datetime,
+  value double DEFAULT NULL,
+  last_updated datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`resource_id`, `REF_AREA`, `CURRENCY_TRANS`, `TIME_PERIOD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+
+CREATE TABLE ECB_YC (
+  resource_id  varchar(20) NOT NULL,
+  INSTRUMENT_FM varchar(20),
+  DATA_TYPE_FM varchar(20),
+  TIME_PERIOD datetime,
+  value double DEFAULT NULL,
+  last_updated datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`resource_id`, `INSTRUMENT_TYPE_FM`, `DATA_TYPE_FM`, `TIME_PERIOD`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
