@@ -3,7 +3,7 @@ import pandas as pd
 from fredapi import Fred
 import numpy as np
 
-from data_apps_aws.passwords import get_api_token
+from data_apps_aws.password_manager import get_api_token
 from data_apps_aws.sql import get_db_engine, overwrite_db_table_from_df
 from data_apps_aws.src_data_pipes.fred_config import get_nowcast_ticker_list, get_all_fred_ticker
 

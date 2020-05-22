@@ -13,7 +13,7 @@ if IS_DEPLOYED == "True":
         'fred': {'api_token': os.getenv('fred_api_token', 'NOT_DEFINED')
                  },
 
-        'slack_bot_webhook': {'url': os.getenv('slack_bot_webhook', 'NOT_DEFINED')
+        'slack_bot_webhook': {'url': os.getenv('slack_bot_webhook', 'NOT_DEFINED_YET')
                  },
 
         "econ_data": {"user": os.getenv('econ_data_user', 'NOT_DEFINED_USER'),
