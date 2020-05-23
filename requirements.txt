@@ -25,3 +25,4 @@ aws-sam-cli
 pytest-mock
 httplib2
 requests
+slackbot
