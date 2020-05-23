@@ -7,14 +7,14 @@ def slack_rendering_error(this_nb):
 
     web_hook_url = get_db_url("slack_bot_webhook")
 
-    slack_msg = {'text': f'Rendering of notebook {this_nb} failed.'}
+    slack_msg = {'text': f'Rendering of notebook **{this_nb}** failed. :x:'}
     requests.post(web_hook_url, data=json.dumps(slack_msg))
 
 def slack_status_update(this_nb):
 
     web_hook_url = get_db_url("slack_bot_webhook")
 
-    slack_msg = {'text': f'Notebook {this_nb} successfully rendered.'}
+    slack_msg = {'text': f'Notebook **{this_nb}** successfully rendered :heavy_check_mark:'}
     requests.post(web_hook_url, data=json.dumps(slack_msg))
     
 
