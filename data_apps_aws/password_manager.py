@@ -16,6 +16,9 @@ if IS_DEPLOYED == "True":
         'slack_bot_webhook': {'url': os.getenv('slack_bot_webhook', 'NOT_DEFINED_YET')
                  },
 
+        'slack_cyborg_app': {'api_token': os.getenv('slack_cyborg_app', 'NOT_DEFINED_YET')
+                 },
+
         "econ_data": {"user": os.getenv('econ_data_user', 'NOT_DEFINED_USER'),
                       "password": os.getenv('econ_data_password', 'NOT_DEFINED_PWD'),
                       "url": os.getenv('econ_data_url', 'NOT_DEFINED_URL'),

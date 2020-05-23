@@ -11,3 +11,4 @@ events/
 tests/
 data_apps_aws.egg-info/
 /render_notebook/Makefile
+/slack_bots/Makefile
