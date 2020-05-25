@@ -26,3 +26,5 @@ pytest-mock
 httplib2
 requests
 slackbot
+bs4
+selenium

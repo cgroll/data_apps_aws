@@ -6,3 +6,6 @@ Package is built on some legacy API of Slack. Hence, the Slack App
 https://api.slack.com/apps?new_classic_app=1 
 
 
+Tutorial video:
+
+https://www.youtube.com/watch?v=4r3-5wvi4kA
