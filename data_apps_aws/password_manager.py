@@ -83,17 +83,17 @@ else:
 
     db_connections = {
 
-        'quandl': {'user': os.getenv('quandl_user', 'NOT_DEFINED'),
-                   'api_token': os.getenv('quandl_api_token', 'NOT_DEFINED')
+        'quandl': {'user': get_credtls('research/quandl/user.gpg', gpg_passphrase),
+                   'api_token': get_credtls('research/quandl/api_token.gpg', gpg_passphrase)
                    },
 
-        'fred': {'api_token': os.getenv('fred_api_token', 'NOT_DEFINED')
+        'fred': {'api_token': get_credtls('research/fred/api_token.gpg', gpg_passphrase)
                  },
 
-        'slack_webhook': {'url': os.getenv('slack_webhook', 'NOT_DEFINED_YET')
+        'slack_webhook': {'url': get_credtls('research/slack_webhook/url.gpg', gpg_passphrase)
                  },
 
-        'slack_cyborg_app': {'api_token': os.getenv('slack_cyborg_app', 'NOT_DEFINED_YET')
+        'slack_cyborg_app': {'api_token': get_credtls('research/slack_cyborg_app/api_token.gpg', gpg_passphrase)
                  },
 
         "econ_data": {"user": get_credtls('research/econ_data/user.gpg', gpg_passphrase),
@@ -101,9 +101,9 @@ else:
                       "url": get_credtls('research/econ_data/url.gpg', gpg_passphrase),
                       },
 
-        "econ_data_read": {"user": os.getenv('econ_data_read_user', 'NOT_DEFINED_USER'),
-                           "password": os.getenv('econ_data_read_password', 'NOT_DEFINED_PWD'),
-                           "url": os.getenv('econ_data_read_url', 'NOT_DEFINED_URL'),
+        "econ_data_read": {"user": get_credtls('research/econ_data/user.gpg', gpg_passphrase),
+                           "password": get_credtls('research/econ_data/password.gpg', gpg_passphrase),
+                           "url": get_credtls('research/econ_data/url.gpg', gpg_passphrase),
                            },
     }
 
