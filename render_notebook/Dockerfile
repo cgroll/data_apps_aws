@@ -10,7 +10,7 @@ ARG IS_DEPLOYED
 ARG econ_data_read_user
 ARG econ_data_read_password
 ARG econ_data_read_url
-ARG slack_bot_webhook
+ARG slack_webhook
 
 ENV AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 ENV AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
@@ -19,7 +19,7 @@ ENV IS_DEPLOYED=True
 ENV econ_data_read_user=$econ_data_read_user
 ENV econ_data_read_password=$econ_data_read_password
 ENV econ_data_read_url=$econ_data_read_url
-ENV slack_bot_webhook=$slack_bot_webhook
+ENV slack_webhook=$slack_webhook
 
 COPY ./requirements.txt ./requirements.txt
 RUN cd $APP_HOME && pip install -r requirements.txt

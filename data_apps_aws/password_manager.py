@@ -1,4 +1,52 @@
 import os
+from data_apps_aws.paths import ProjectPaths
+
+def get_passphrase_from_file(pphrase_file):
+
+    # get passphrase from file
+    f = open(pphrase_file, 'r')
+    gpg_passphrase = f.read()
+
+    # remove end of line characters
+    if gpg_passphrase[-1:] == '\n':
+        gpg_passphrase = gpg_passphrase[:-1]
+
+    return gpg_passphrase
+
+
+def gpg_credtls_fname(sub_path_name):
+    
+    return str(ProjectPaths.pass_manager_path) + '/' + sub_path_name
+
+
+def decode_credtls(this_credtls_file, this_passphrase):
+
+    credtls_query = subprocess.check_output(["gpg", "--pinentry-mode", "loopback", 
+                                        "--passphrase", this_passphrase,
+                                        "-d", this_credtls_file])
+
+    decrypted_credtls = credtls_query.decode("utf-8")
+
+    # remove end of line characters
+    if decrypted_credtls[-1:] == '\n':
+        decrypted_credtls = decrypted_credtls[:-1]
+        
+    return decrypted_credtls
+
+
+def get_credtls(sub_path_name, this_passphrase):
+
+    credtls_fname = gpg_credtls_fname(sub_path_name)
+
+    return decode_credtls(credtls_fname, this_passphrase)
+
+
+# get passphrase from environment variable
+gpg_passphrase = os.getenv('GPG_PASSPHRASE', 'NOT_DEFINED')
+
+# get passphrase from file
+gpg_passphrase_fname = str(ProjectPaths.secret_path) + '/gpg_passphrase.txt'
+gpg_passphrase = get_passphrase_from_file(gpg_passphrase_fname)
 
 IS_DEPLOYED = os.getenv('IS_DEPLOYED', "False")
 
@@ -13,7 +61,7 @@ if IS_DEPLOYED == "True":
         'fred': {'api_token': os.getenv('fred_api_token', 'NOT_DEFINED')
                  },
 
-        'slack_bot_webhook': {'url': os.getenv('slack_bot_webhook', 'NOT_DEFINED_YET')
+        'slack_webhook': {'url': os.getenv('slack_webhook', 'NOT_DEFINED_YET')
                  },
 
         'slack_cyborg_app': {'api_token': os.getenv('slack_cyborg_app', 'NOT_DEFINED_YET')
@@ -31,59 +79,51 @@ if IS_DEPLOYED == "True":
     }
 
 
-    def get_api_token(db_name):
-        return db_connections[db_name]['api_token']
-
-
-    def get_db_url(db_name):
-        return db_connections[db_name]['url']
-
-
-    def get_db_password(db_name):
-        return db_connections[db_name]['password']
-
-
-    def get_db_user(db_name):
-        return db_connections[db_name]['user']
-
 else:
 
-    import sys
-    from data_apps_aws.paths import ProjectPaths
+    db_connections = {
 
-    try:
-        
-        sys.path.append(str(ProjectPaths.secret_path))
-        import passwords.secrets as secrets
+        'quandl': {'user': os.getenv('quandl_user', 'NOT_DEFINED'),
+                   'api_token': os.getenv('quandl_api_token', 'NOT_DEFINED')
+                   },
 
-    except ImportError:
-        print('The import of database passwords did not work.\n' +
-              f'Please add file secrets.py into directory {str(ProjectPaths.passwords_path)}')
+        'fred': {'api_token': os.getenv('fred_api_token', 'NOT_DEFINED')
+                 },
 
-        place_holder_example = """
-        db_connections = {
-            'econ-fin-data': {'user': 'username',
-                             'password': 'FILL_IN_PASSWORD_HERE',
-                             'url': 'some_aws_address'
-            },
-        }
-        """
+        'slack_webhook': {'url': os.getenv('slack_webhook', 'NOT_DEFINED_YET')
+                 },
 
-        print('The content of the file should look like this:')
-        print(place_holder_example)
+        'slack_cyborg_app': {'api_token': os.getenv('slack_cyborg_app', 'NOT_DEFINED_YET')
+                 },
 
+        "econ_data": {"user": get_credtls('research/econ_data/user.gpg', gpg_passphrase),
+                      "password": get_credtls('research/econ_data/password.gpg', gpg_passphrase),
+                      "url": get_credtls('research/econ_data/url.gpg', gpg_passphrase),
+                      },
 
-    def get_api_token(db_name):
-        return secrets.db_connections[db_name]['api_token']
+        "econ_data_read": {"user": os.getenv('econ_data_read_user', 'NOT_DEFINED_USER'),
+                           "password": os.getenv('econ_data_read_password', 'NOT_DEFINED_PWD'),
+                           "url": os.getenv('econ_data_read_url', 'NOT_DEFINED_URL'),
+                           },
+    }
 
 
-    def get_db_url(db_name):
-        return secrets.db_connections[db_name]['url']
+def get_api_token(db_name):
+    return db_connections[db_name]['api_token']
 
 
-    def get_db_password(db_name):
-        return secrets.db_connections[db_name]['password']
+def get_db_url(db_name):
+    return db_connections[db_name]['url']
 
 
-    def get_db_user(db_name):
-        return secrets.db_connections[db_name]['user']
+def get_db_password(db_name):
+    return db_connections[db_name]['password']
+
+
+def get_db_user(db_name):
+    return db_connections[db_name]['user']
+
+
+if __name__=="__main__":
+
+    get_db_user('econ_data')

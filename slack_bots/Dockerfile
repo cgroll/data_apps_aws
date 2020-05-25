@@ -3,11 +3,11 @@ FROM python:3.7
 WORKDIR /usr/src/app
 ENV APP_HOME /usr/src/app
 
-ARG slack_bot_webhook
+ARG slack_webhook
 ARG slack_cyborg_app
 ARG IS_DEPLOYED
 
-ENV slack_bot_webhook=$slack_bot_webhook
+ENV slack_webhook=$slack_webhook
 ENV slack_cyborg_app=$slack_cyborg_app
 ENV IS_DEPLOYED=True
 

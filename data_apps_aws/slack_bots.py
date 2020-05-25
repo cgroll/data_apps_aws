@@ -10,7 +10,7 @@ error_channel_id = "C013YGT366S"
 
 def slack_rendering_error(this_nb):
 
-    web_hook_url = get_db_url("slack_bot_webhook")
+    web_hook_url = get_db_url("slack_webhook")
 
     slack_msg = {'text': f'Rendering of notebook **{this_nb}** failed. :x:',
                  'icon_url': jupyter_logo,
@@ -20,7 +20,7 @@ def slack_rendering_error(this_nb):
 
 def slack_status_update(this_nb):
 
-    web_hook_url = get_db_url("slack_bot_webhook")
+    web_hook_url = get_db_url("slack_webhook")
 
     slack_msg = {'text': f'Notebook *{this_nb}* successfully rendered :heavy_check_mark:',
                  'icon_url': jupyter_logo,
@@ -29,7 +29,7 @@ def slack_status_update(this_nb):
     
 
 def main():
-    web_hook_url = get_db_url("slack_bot_webhook")
+    web_hook_url = get_db_url("slack_webhook")
 
     slack_msg = {'text': 'Message from Python'}
 
