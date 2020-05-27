@@ -1,6 +1,6 @@
 import os
 from data_apps_aws.nb_render import render_nb
-from data_apps_aws.slack_bots import slack_rendering_error, jupyter_status_update
+from data_apps_aws.slack_bots import jupyter_rendering_error, jupyter_status_update
 
 notebook_list = ['index',
                  'macro_econ_release_data'
@@ -45,5 +45,5 @@ for this_nb in notebook_list:
         
     except:
         print('Rending not successful')
-        slack_rendering_error(this_nb)
+        jupyter_rendering_error(this_nb)
 
