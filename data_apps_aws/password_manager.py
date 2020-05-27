@@ -84,8 +84,11 @@ if IS_DEPLOYED == "True":
 else:
 
     # get passphrase from file
-    gpg_passphrase_fname = str(ProjectPaths.secret_path) + '/gpg_passphrase.txt'
-    gpg_passphrase = get_passphrase_from_file(gpg_passphrase_fname)
+    try:
+        gpg_passphrase_fname = str(ProjectPaths.secret_path) + '/gpg_passphrase.txt'
+        gpg_passphrase = get_passphrase_from_file(gpg_passphrase_fname)
+    except:
+        gpg_passphrase = getenv_save('GPG_PASSPHRASE')
 
     db_connections = {
 
