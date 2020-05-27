@@ -4,6 +4,9 @@ Data analyses, automated in the cloud.
 
 ## Roadmap
 
+- deploy notebook renderer with new setup to Fargate 
+- deploy slack bot to Raspi
+
 - write alfred data to AWS MySQL database
 - render notebook with template (skip code)
 - upload to S3
