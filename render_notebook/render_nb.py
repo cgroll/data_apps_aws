@@ -41,7 +41,7 @@ for this_nb in notebook_list:
         print(f'Rendering {this_nb}')
         download_render_upload_notebook(this_nb)
         print(f'Rendering successful')
-        slack_status_update(this_nb)
+        jupyter_status_update(this_nb)
         
     except:
         print('Rending not successful')
