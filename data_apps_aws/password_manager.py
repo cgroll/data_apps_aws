@@ -1,5 +1,6 @@
 import os
 from data_apps_aws.paths import ProjectPaths
+import subprocess
 
 def get_passphrase_from_file(pphrase_file):
 
