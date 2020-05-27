@@ -2,46 +2,36 @@ import json
 import pandas
 
 from data_apps_aws.src_data_pipes.fred_data_pipes import update_full_nowcast_data
-# import requests
+from data_apps_aws.slack_bots import slack_data_pipe_error, slack_status_update
 
 def lambda_handler(event, context):
-    """Sample pure Lambda function
-
-    Parameters
-    ----------
-    event: dict, required
-        API Gateway Lambda Proxy Input Format
-
-        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
-
-    context: object, required
-        Lambda Context runtime methods and attributes
-
-        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
-
-    Returns
-    ------
-    API Gateway Lambda Proxy Output Format: dict
-
-        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
+    """
+    Lambda function to download FRED Nowcast data and upload to database.
     """
 
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
+    lambda_func_name = 'FredNowcastDataFunction'
+    data_pipe_logo = "https://www.stlouisfed.org/~/media/Images/Rotator-Images/460x337/Evergreen/Homepage_FRED.jpg"
 
-    #     raise e
+    start_msg = f'Start data processing for *{lambda_func_name}*'
+    print(start_msg)
+    slack_status_update(start_msg, data_pipe_logo)
 
-    print('Start data processing with new pipeline')
-    update_full_nowcast_data()
-    print('Data processing done with new pipeline')
+    try:
+        update_full_nowcast_data()
+
+        end_msg = f'Data processing successfully done for *{lambda_func_name}*. :heavy_check_mark:'
+        print(end_msg)
+        slack_status_update(end_msg, data_pipe_logo)
+
+    except:
+
+        print(f'Data processing failed for {lambda_func_name}')
+        slack_data_pipe_error('AWS_lambda', lambda_func_name, data_pipe_logo)
+
 
     return {
         "statusCode": 200,
         "body": json.dumps({
             "message": f"FRED nowcast data updated:",
-            # "location": ip.text.replace("\n", "")
         }),
     }

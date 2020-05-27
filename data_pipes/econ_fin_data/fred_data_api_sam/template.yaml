@@ -34,6 +34,10 @@ Parameters:
         Description: 'Required. The Database username'
         Type: 'String'
 
+    SLACKURL:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
 Globals:
   Function:
     Timeout: 600
@@ -46,6 +50,7 @@ Globals:
         econ_data_url: !Ref DBURL
         econ_data_user: !Ref DBUSER
         fred_api_token: !Ref APITOKEN
+        slack_webhook: !Ref SLACKURL
 
 Resources:
   FredMetadataFunction:

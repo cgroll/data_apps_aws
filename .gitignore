@@ -5,7 +5,6 @@ __pycache__/
 .ipynb_checkpoints/
 venv_fred_data_layer/
 api_landing_page/output/
-/data_pipes/econ_fin_data/fred_data_api_sam/Makefile
 /data_pipes/econ_fin_data/fred_data_api_sam/packaged.yaml
 events/
 tests/
