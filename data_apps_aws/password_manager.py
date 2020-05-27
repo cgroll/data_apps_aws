@@ -42,45 +42,50 @@ def get_credtls(sub_path_name, this_passphrase):
     return decode_credtls(credtls_fname, this_passphrase)
 
 
-# get passphrase from environment variable
-gpg_passphrase = os.getenv('GPG_PASSPHRASE', 'NOT_DEFINED')
-
-# get passphrase from file
-gpg_passphrase_fname = str(ProjectPaths.secret_path) + '/gpg_passphrase.txt'
-gpg_passphrase = get_passphrase_from_file(gpg_passphrase_fname)
+def getenv_save(this_env_var):
+    return os.getenv(this_env_var, 'NOT_DEFINED')
+    
 
 IS_DEPLOYED = os.getenv('IS_DEPLOYED', "False")
 
+
 if IS_DEPLOYED == "True":
+
+    # get passphrase from environment variable
+    gpg_passphrase = getenv_save('GPG_PASSPHRASE')
 
     db_connections = {
 
-        'quandl': {'user': os.getenv('quandl_user', 'NOT_DEFINED'),
-                   'api_token': os.getenv('quandl_api_token', 'NOT_DEFINED')
+        'quandl': {'user': getenv_save('quandl_user'),
+                   'api_token': getenv_save('quandl_api_token')
                    },
 
-        'fred': {'api_token': os.getenv('fred_api_token', 'NOT_DEFINED')
+        'fred': {'api_token': getenv_save('fred_api_token')
                  },
 
-        'slack_webhook': {'url': os.getenv('slack_webhook', 'NOT_DEFINED_YET')
+        'slack_webhook': {'url': getenv_save('slack_webhook')
                  },
 
-        'slack_cyborg_app': {'api_token': os.getenv('slack_cyborg_app', 'NOT_DEFINED_YET')
+        'slack_cyborg_app': {'api_token': getenv_save('slack_cyborg_app')
                  },
 
-        "econ_data": {"user": os.getenv('econ_data_user', 'NOT_DEFINED_USER'),
-                      "password": os.getenv('econ_data_password', 'NOT_DEFINED_PWD'),
-                      "url": os.getenv('econ_data_url', 'NOT_DEFINED_URL'),
+        "econ_data": {"user": getenv_save('econ_data_user'),
+                      "password": getenv_save('econ_data_password'),
+                      "url": getenv_save('econ_data_url'),
                       },
 
-        "econ_data_read": {"user": os.getenv('econ_data_read_user', 'NOT_DEFINED_USER'),
-                           "password": os.getenv('econ_data_read_password', 'NOT_DEFINED_PWD'),
-                           "url": os.getenv('econ_data_read_url', 'NOT_DEFINED_URL'),
+        "econ_data_read": {"user": getenv_save('econ_data_read_user'),
+                           "password": getenv_save('econ_data_read_password'),
+                           "url": getenv_save('econ_data_read_url'),
                            },
     }
 
 
 else:
+
+    # get passphrase from file
+    gpg_passphrase_fname = str(ProjectPaths.secret_path) + '/gpg_passphrase.txt'
+    gpg_passphrase = get_passphrase_from_file(gpg_passphrase_fname)
 
     db_connections = {
 
