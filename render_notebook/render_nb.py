@@ -1,6 +1,6 @@
 import os
 from data_apps_aws.nb_render import render_nb
-from data_apps_aws.slack_bots import slack_rendering_error, slack_status_update
+from data_apps_aws.slack_bots import slack_rendering_error, jupyter_status_update
 
 notebook_list = ['index',
                  'macro_econ_release_data'
