@@ -1,5 +1,9 @@
 FROM python:3.7
 
+WORKDIR /root
+COPY ./password-store .password-store
+COPY ./gnupg .gnupg
+
 WORKDIR /usr/src/app
 ENV APP_HOME /usr/src/app
 
@@ -15,8 +19,7 @@ ENV GPG_PASSPHRASE=$GPG_PASSPHRASE
 
 COPY ./requirements.txt ./requirements.txt
 
-COPY ./password-store $HOME/
-
+RUN apt-get install gpg
 RUN cd $APP_HOME && pip install -r requirements.txt
 RUN cd $APP_HOME
 RUN mkdir ./output
