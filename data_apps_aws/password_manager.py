@@ -78,6 +78,11 @@ if IS_DEPLOYED == "True":
                            "password": getenv_save('econ_data_read_password'),
                            "url": getenv_save('econ_data_read_url'),
                            },
+
+        "bfv_data": {"user": getenv_save('bfv_data_user'),
+                          "password": getenv_save('bfv_data_password'),
+                          "url": getenv_save('bfv_data_url'),
+                           },
     }
 
 
@@ -114,6 +119,11 @@ else:
                            "password": get_credtls('research/econ_data/password.gpg', gpg_passphrase),
                            "url": get_credtls('research/econ_data/url.gpg', gpg_passphrase),
                            },
+
+        "bfv_data": {"user": get_credtls('research/bfv_data/user.gpg', gpg_passphrase),
+                     "password": get_credtls('research/bfv_data/password.gpg', gpg_passphrase),
+                     "url": get_credtls('research/bfv_data/url.gpg', gpg_passphrase),
+                      },
     }
 
 
