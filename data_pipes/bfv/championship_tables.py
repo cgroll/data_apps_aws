@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 import pandas as pd
+import numpy as np
 import re
 import os
 import time
@@ -254,10 +255,145 @@ def single_match_day_task(this_championship_id, this_match_day):
     page_scan_logging(match_day_id, "matchday_games", success=True, skipped=False)
 
 
+def get_id_from_url(this_url, this_prefix):
+    return this_url.split(this_prefix)[1]
+
+
+def navigate_to_aufstellung(driver):
+
+    # scroll down
+    for ii in np.arange(0, 20):
+        driver.find_element_by_tag_name('body').send_keys(Keys.DOWN)
+
+    time.sleep(2)
+
+    # find from class tab-navigation__link the one with title "Aufstellung" and click it
+    all_tabs = driver.find_elements_by_class_name('tab-navigation__link')
+
+    for this_tab in all_tabs:
+        if this_tab.get_attribute('title') == "Aufstellung":
+            this_tab.click()
+
+    return driver
+
+
+def extract_match_participants(driver, this_match_id):
+
+    # extract values from page
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    teams_span_list = soup.find_all("span", {'class': 'bfv-tab-switch__tab-text'})
+    team_names = [this_team_span.get_text() for this_team_span in teams_span_list]
+
+    team_contents = soup.find_all('div', {'class': 'bfv-composition__team js-bfv-tab-switch__content'})
+    all_people = None
+
+    for this_iter in [0, 1, 2, 3, 4, 5]:
+
+        all_player_names = []
+        all_player_urls = []
+
+        if this_iter in [0, 1]:
+            this_type = "starting"
+        elif this_iter in [2, 3]:
+            this_type = 'bench'
+        elif this_iter in [4, 5]:
+            this_type = 'trainer'
+
+        this_team_contents = team_contents[this_iter]
+
+        for this_team_entry in this_team_contents.find_all('a'):
+
+            team_info_raw = this_team_entry.find_all('span', {'class': 'bfv-composition-entry__team-name'})
+
+            if len(team_info_raw) > 0:
+                if this_iter == 0:
+                    home_team_name = team_info_raw[0].get_text()
+                    home_team_id = team_info_raw[0].get('id')
+                elif this_iter == 1:
+                    away_team_name = team_info_raw[0].get_text()
+                    away_team_id = team_info_raw[0].get('id')
+
+            else:
+                this_player_name = this_team_entry.get_text().replace('\n', '').rstrip().lstrip()
+                this_player_url = this_team_entry.get('href')
+
+                all_player_names.append(this_player_name)
+                all_player_urls.append(this_player_url)
+
+        these_people = pd.concat(
+            [pd.Series(all_player_names, name='player_name'), pd.Series(all_player_urls, name='player_url')],
+            axis=1)
+        these_people['type'] = this_type
+
+        if this_iter in [0, 2, 4]:
+            these_people['team'] = home_team_name
+            these_people['team_id'] = home_team_id
+
+        elif this_iter in [1, 3, 5]:
+            these_people['team'] = away_team_name
+            these_people['team_id'] = away_team_id
+
+        if all_people is None:
+            all_people = these_people
+        else:
+            all_people = pd.concat([all_people, these_people], axis=0)
+
+    all_people.reset_index(inplace=True, drop=True)
+
+    # get all player IDs
+    all_player_ids = []
+    for this_player_url in all_people['player_url']:
+
+        if this_player_url is None:
+            all_player_ids.append(None)
+        else:
+            link_prefix = 'https://www.bfv.de/spieler/'
+            this_player_id = this_player_url.split(link_prefix)[1]
+            all_player_ids.append(this_player_id)
+
+    all_people['person_id'] = all_player_ids
+
+    all_people.insert(0, 'match_id', this_match_id)
+
+    all_first_names = []
+    for this_name in all_people['player_name']:
+        all_first_names.append(this_name.split(' ')[0].replace(',', '').strip())
+
+    all_people['first_name'] = all_first_names
+
+    return all_people
+
+
+def single_match_participants_task(this_match_url):
+
+    this_match_id = get_id_from_url(this_match_url, 'https://www.bfv.de/spiele/')
+    driver = open_url_cookie_accept(this_match_url)
+    time.sleep(2)
+    driver = navigate_to_aufstellung(driver)
+    time.sleep(2)
+    all_participants = extract_match_participants(driver, this_match_id)
+    driver.quit()
+
+    db_con = get_db_engine('bfv_data')
+
+    # for first-time creation of tables:
+    #all_participants.to_sql('match_participants', db_con.engine, index=False)
+
+    # update in database
+    this_match_id = get_id_from_url(this_match_url, 'https://www.bfv.de/spiele/')
+    overwrite_db_table_from_df_matching_multiple_eq_condition(all_participants, 'match_participants',
+                                                              db_con, match_id=this_match_id)
+
+    db_con.dispose()
+
+    # do some logging
+    page_scan_logging(this_match_id, "match_participants", success=True, skipped=False)
+
+
 if __name__=="__main__":
 
     # settings
-    job_type = 'matchday_games' # league_tables, matchday_games, match_participants
+    job_type = 'match_participants' # league_tables, matchday_games, match_participants
     match_days = [9, 19]
 
 
@@ -266,8 +402,8 @@ if __name__=="__main__":
         all_leagues_with_links = pd.read_csv('./bfv_league_links.csv')
 
         for this_link in all_leagues_with_links['Link']:
-            link_prefix = 'https://www.bfv.de/wettbewerbe/meisterschaften/'
-            this_championship_id = this_link.split(link_prefix)[1]
+
+            this_championship_id = get_id_from_url(this_link, 'https://www.bfv.de/wettbewerbe/meisterschaften/')
 
             print(f'Scraping championship {this_championship_id}')
 
@@ -283,8 +419,8 @@ if __name__=="__main__":
         all_leagues_with_links = pd.read_csv('./bfv_league_links.csv')
 
         for this_link in all_leagues_with_links['Link']:
-            link_prefix = 'https://www.bfv.de/wettbewerbe/meisterschaften/'
-            this_championship_id = this_link.split(link_prefix)[1]
+
+            this_championship_id = get_id_from_url(this_link, 'https://www.bfv.de/wettbewerbe/meisterschaften/')
 
             for this_match_day in match_days:
 
@@ -298,10 +434,59 @@ if __name__=="__main__":
                     this_match_day_url = 'https://www.bfv.de/wettbewerbe/meisterschaften/' + this_championship_id + '#spieltag=' + str(
                         this_match_day)
 
-                    link_prefix = 'https://www.bfv.de/wettbewerbe/meisterschaften/'
-                    match_day_id = this_match_day_url.split(link_prefix)[1]
+                    match_day_id = get_id_from_url(this_match_day_url, 'https://www.bfv.de/wettbewerbe/meisterschaften/')
 
                     page_scan_logging(match_day_id, "matchday_games", success=False, skipped=False)
+
+
+    elif job_type == 'match_participants':
+
+        db_con = get_db_engine('bfv_data')
+        query="""
+        SELECT link
+        FROM match_day_links
+        """
+        all_match_urls = get_db_data(query, db_con).values.flatten()
+
+        query="""
+        SELECT league_id
+        FROM page_scan_logging
+        WHERE job_type = "match_participants"
+        AND success = 0
+        """
+        all_failed_match_ids = get_db_data(query, db_con).values.flatten()
+
+        query="""
+        SELECT league_id
+        FROM page_scan_logging
+        WHERE job_type = "match_participants"
+        """
+        all_scanned_match_ids = get_db_data(query, db_con).values.flatten()
+
+        for this_match_url in all_match_urls:
+
+            if this_match_url is None:
+                continue
+
+            this_match_id = get_id_from_url(this_match_url, 'https://www.bfv.de/spiele/')
+            if this_match_id not in all_failed_match_ids:
+                continue
+
+            #if this_match_id in all_scanned_match_ids:
+            #    continue
+
+            print(f'Scraping participants for match {this_match_url}')
+
+            try:
+                single_match_participants_task(this_match_url)
+
+            except:
+
+                this_match_id = get_id_from_url(this_match_url, 'https://www.bfv.de/spiele/')
+                page_scan_logging(this_match_id, "match_participants", success=False, skipped=False)
+
+
+
 
 
 
