@@ -175,6 +175,8 @@ def single_league_tables_task(this_championship_id):
     proceed_to_fairness_table(driver)
 
     fairness_table = extract_fairness_table(driver)
+    fairness_table = fairness_table.reset_index()
+    fairness_table.rename({'index': 'team'}, axis=1, inplace=True)
     fairness_table.insert(0, 'championship_id', this_championship_id)
 
     driver.quit()
@@ -394,6 +396,7 @@ if __name__=="__main__":
 
     # settings
     job_type = 'match_participants' # league_tables, matchday_games, match_participants
+    job_type = 'league_tables'
     match_days = [9, 19]
 
 
