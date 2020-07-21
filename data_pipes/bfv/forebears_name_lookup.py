@@ -111,13 +111,23 @@ if __name__=="__main__":
 
     for this_name in all_names:
 
+        this_name_escaped = this_name
+
+        this_name_escaped = this_name_escaped.replace('ü', '%C3%BC')
+        this_name_escaped = this_name_escaped.replace('Ü', '%C3%BC')
+        this_name_escaped = this_name_escaped.replace('ö', '%C3%B6')
+        this_name_escaped = this_name_escaped.replace('Ö', '%C3%B6')
+        this_name_escaped = this_name_escaped.replace('ä', '%C3%A4')
+        this_name_escaped = this_name_escaped.replace('Ä', '%C3%A4')
+
         # skip already successful scans
         if this_name in all_success_scans:
             print(f'{this_name}: skipped, already successful before')
             continue
 
         try:
-            name_counts_df = extract_forename_info_from_page(this_name)
+            name_counts_df = extract_forename_info_from_page(this_name_escaped)
+            name_counts_df['name'] = this_name
 
             if name_counts_df is None:
                 page_scan_logging(this_name, this_name_type, success=False, skipped=True)
