@@ -396,7 +396,7 @@ if __name__=="__main__":
 
     # settings
     job_type = 'match_participants' # league_tables, matchday_games, match_participants
-    job_type = 'league_tables'
+    job_type = 'match_participants'
     match_days = [9, 19]
 
 
@@ -419,6 +419,14 @@ if __name__=="__main__":
 
     elif job_type == 'matchday_games':
 
+        db_con = get_db_engine('bfv_data')
+        query = """
+                SELECT championship_id, match_day
+                FROM match_day_links
+                """
+        all_existing_match_day_links = get_db_data(query, db_con)
+        all_existing_match_day_links = all_existing_match_day_links.drop_duplicates()
+
         all_leagues_with_links = pd.read_csv('./bfv_league_links.csv')
 
         for this_link in all_leagues_with_links['Link']:
@@ -426,6 +434,12 @@ if __name__=="__main__":
             this_championship_id = get_id_from_url(this_link, 'https://www.bfv.de/wettbewerbe/meisterschaften/')
 
             for this_match_day in match_days:
+
+                existing_db_entries = all_existing_match_day_links.query(
+                    'championship_id == @this_championship_id and match_day == @this_match_day')
+
+                if existing_db_entries.shape[0] > 0:
+                    continue
 
                 print(f'Scraping match day games for {this_championship_id} and match day {this_match_day}')
 
@@ -472,11 +486,11 @@ if __name__=="__main__":
                 continue
 
             this_match_id = get_id_from_url(this_match_url, 'https://www.bfv.de/spiele/')
-            if this_match_id not in all_failed_match_ids:
-                continue
-
-            #if this_match_id in all_scanned_match_ids:
+            #if this_match_id not in all_failed_match_ids:
             #    continue
+
+            if this_match_id in all_scanned_match_ids:
+                continue
 
             print(f'Scraping participants for match {this_match_url}')
 
