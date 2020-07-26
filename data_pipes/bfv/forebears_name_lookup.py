@@ -127,7 +127,7 @@ if __name__=="__main__":
 
         try:
             name_counts_df = extract_forename_info_from_page(this_name_escaped)
-            name_counts_df['name'] = this_name
+            name_counts_df['name'] = this_name.lower()
 
             if name_counts_df is None:
                 page_scan_logging(this_name, this_name_type, success=False, skipped=True)
