@@ -1,5 +1,6 @@
 import json
 import pandas
+import logging
 
 from data_apps_aws.src_data_pipes.deutsche_boerse_1min_data import update_data_in_db, get_delayed_xetra_date_to_process
 from data_apps_aws.slack_bots import slack_data_pipe_error, slack_status_update
