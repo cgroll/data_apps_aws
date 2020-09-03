@@ -76,6 +76,9 @@ def get_delayed_xetra_date_to_process():
 
 if __name__=='__main__':
 
+    this_date = get_delayed_xetra_date_to_process()
+    update_data_in_db(this_date, 'xetra')
+
     this_stock_exchange = 'xetra'
 
     if this_stock_exchange == 'xetra':
