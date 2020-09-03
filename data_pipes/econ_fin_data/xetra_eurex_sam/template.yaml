@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  xetra_eurex_sam
+
+  Sample SAM Template for xetra_eurex_sam
+
+# Open TODOs:
+# - split out lambda layer (how can this be maintained by AWS SAM?)
+# - use AWS parameter store to transmit secret environment variables
+#   during deploy
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+
+Parameters:
+
+    ISDEPLOYED:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    DBPWD:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    DBURL:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    DBUSER:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    APITOKEN:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    SLACKURL:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+Globals:
+  Function:
+    Timeout: 600
+    MemorySize: 2048
+    Runtime: python3.7
+    Environment:
+      Variables:
+        IS_DEPLOYED: !Ref ISDEPLOYED
+        econ_data_password: !Ref DBPWD
+        econ_data_url: !Ref DBURL
+        econ_data_user: !Ref DBUSER
+        slack_webhook: !Ref SLACKURL
+
+Resources:
+  XetraOneMinuteFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: .
+      Handler: lambda_xetra_1min_data.lambda_handler
+      Runtime: python3.7
+      Events:
+        XetraOneMinData:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /XetraOneMinData
+            Method: get
+        ScheduledXetraOneMinData:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 13 ? * MON-FRI *)
+
+  XetraDailyMetricsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: .
+      Handler: lambda_xetra_daily_metrics.lambda_handler
+      Runtime: python3.7
+      Events:
+        XetraDailyMetrics:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /XetraDailyMetrics
+            Method: get
+        ScheduledXetraDailyMetrics:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 13 ? * MON-FRI *)
+
