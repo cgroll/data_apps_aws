@@ -25,7 +25,7 @@ def lambda_handler(event, context):
         print(end_msg)
         slack_status_update(end_msg, data_pipe_logo)
 
-    except: Exception as e:
+    except Exception as e:
         logger.error('Failed lambda function with error: '+ str(e))
 
         end_msg = f'Data processing failed for {lambda_func_name}'
