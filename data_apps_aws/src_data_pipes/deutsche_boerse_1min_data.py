@@ -4,6 +4,10 @@ import glob
 import shutil
 import pandas as pd
 
+import datetime
+from pandas.tseries.offsets import DateOffset, MonthEnd
+import dateutil.relativedelta
+
 from data_apps_aws.sql import *
 
 # Load the files from a date directory
@@ -51,12 +55,23 @@ def update_data_in_db(this_date, this_stock_exchange):
 
     data = get_upload_data(this_date, this_stock_exchange)
 
-    upload_df_to_table(data, obs_data_table_name,
-                       db_con, index=False, if_exists='append')
-    # overwrite_db_table_from_df_matching_single_eq_condition(data, obs_data_table_name,
-    #                                                      db_con, 'Date', this_date, index=False)
+    # upload_df_to_table(data, obs_data_table_name,
+    #                    db_con, index=False, if_exists='append')
+    overwrite_db_table_from_df_matching_single_eq_condition(data, obs_data_table_name,
+                                                         db_con, 'Date', this_date, index=False)
 
     db_con.dispose()
+
+# %%
+
+def get_delayed_xetra_date_to_process():
+
+    today = datetime.date.today()
+    date_offset = today - dateutil.relativedelta.relativedelta(days=2)
+    date_offset_str = date_offset.strftime('%Y-%m-%d')
+
+    return date_offset_str
+
 
 
 if __name__=='__main__':
@@ -66,7 +81,7 @@ if __name__=='__main__':
     if this_stock_exchange == 'xetra':
         start_date = '2017-06-17'
         start_date = '2017-09-13'
-        start_date = '2020-01-01'
+        start_date = '2020-08-21'
     elif this_stock_exchange == 'eurex':
         start_date = '2017-05-27'
     else:
@@ -74,7 +89,7 @@ if __name__=='__main__':
 
     # update_data_in_db('2020-08-21', this_stock_exchange)
 
-    datelist = pd.date_range(start=start_date, end='2020-08-20').tolist()
+    datelist = pd.date_range(start=start_date, end='2020-09-01').tolist()
 
     # get current dates in database
     db_con = get_db_engine('econ_data')
@@ -86,7 +101,6 @@ if __name__=='__main__':
     existing_dates = get_db_data(query, db_con).squeeze()
     db_con.dispose()
 
-
     for this_date in datelist:
 
         this_date_str = this_date.strftime('%Y-%m-%d')
@@ -95,4 +109,8 @@ if __name__=='__main__':
         if this_date_str in existing_dates.values:
             continue
         else:
-            update_data_in_db(this_date_str, this_stock_exchange)
+            try:
+                update_data_in_db(this_date_str, this_stock_exchange)
+
+            except:
+                print('Failed')
