@@ -27,7 +27,7 @@ def get_upload_data(this_date, this_stock_exchange):
     else:
         raise ValueError(f'Unknown stock exchange: {this_stock_exchange}')
 
-    this_local_folder_name = f"./xetra_eurex_1_min_data/deutsche-boerse-{this_stock_exchange}-pds/{this_date}"
+    this_local_folder_name = f"/tmp/xetra_eurex_1_min_data/deutsche-boerse-{this_stock_exchange}-pds/{this_date}"
     this_s3_folder_name = this_stock_exchange_url + this_date
 
     # make local directory

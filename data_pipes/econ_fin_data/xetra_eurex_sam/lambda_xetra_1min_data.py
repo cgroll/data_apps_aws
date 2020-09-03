@@ -10,8 +10,11 @@ def lambda_handler(event, context):
     Lambda function to download XETRA and EUREX 1 minute data and upload to database.
     """
 
+
+    
     this_date = get_delayed_xetra_date_to_process()
     lambda_func_name = 'XetraOneMinuteFunction'
+    logger = logging.getLogger(lambda_func_name)
     data_pipe_logo = "https://www.lynxbroker.de/wp-content/uploads/2019/12/xetra-logo.png"
 
     start_msg = f'Start data processing for *{lambda_func_name}* and date {this_date}'
