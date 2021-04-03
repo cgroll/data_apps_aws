@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  slack_bot_sam
+
+  Sample SAM Template for slack_bot_sam
+
+# Open TODOs:
+# - split out lambda layer (how can this be maintained by AWS SAM?)
+# - use AWS parameter store to transmit secret environment variables
+#   during deploy
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+
+Parameters:
+
+    ISDEPLOYED:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    APITOKEN:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    SLACKURL:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+Globals:
+  Function:
+    Timeout: 600
+    MemorySize: 2048
+    Runtime: python3.7
+    Environment:
+      Variables:
+        IS_DEPLOYED: !Ref ISDEPLOYED
+        slack_webhook: !Ref SLACKURL
+
+Resources:
+  SlackBotFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: .
+      Handler: lambda_slack_bot_request
+      Runtime: python3.7
+      Events:
+        SlackBotRequest:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /SlackBotRequest
+            Method: post

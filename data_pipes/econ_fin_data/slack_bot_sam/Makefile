@@ -1,0 +1,11 @@
+SHELL := /bin/bash
+
+SLACK_WEBHOOK=$(shell pass research/slack_webhook/url)
+
+.PHONY: build
+build:
+	sam build && sam package --s3-bucket cglambdatestbucket --profile cgroll --output-template-file packaged.yaml
+
+.PHONY: deploy
+deploy:
+	sam deploy --profile cgroll --region eu-west-1 --template-file packaged.yaml --stack-name SlackBotStack --capabilities CAPABILITY_IAM --parameter-overrides 'ParameterKey=ISDEPLOYED,ParameterValue=True ParameterKey=SLACKURL,ParameterValue=${SLACK_WEBHOOK}'
