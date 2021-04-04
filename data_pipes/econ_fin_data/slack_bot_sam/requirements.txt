@@ -1,7 +1,2 @@
 requests
 pandas
-fredapi
-sqlalchemy
-pymysql
-git+git://github.com/cgroll/data_apps_aws.git#egg=data_apps_aws
-# git+git://github.com/seaborn/seaborn.git#egg=seaborn

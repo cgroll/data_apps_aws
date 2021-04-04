@@ -18,10 +18,6 @@ Parameters:
         Description: 'Required. The Database username'
         Type: 'String'
 
-    APITOKEN:
-        Description: 'Required. The Database username'
-        Type: 'String'
-
     SLACKURL:
         Description: 'Required. The Database username'
         Type: 'String'
@@ -41,7 +37,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: .
-      Handler: lambda_slack_bot_request
+      Handler: lambda_slack_bot_request.lambda_handler
       Runtime: python3.7
       Events:
         SlackBotRequest:
