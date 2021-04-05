@@ -1,0 +1,53 @@
+{
+    "dev_event": {
+       "project_name": "slack_bot_flask",
+       "keep_warm": false,
+       "debug": true,
+       "log_level": "DEBUG",
+       "events": [{
+         "function": "mymodule.myfunc",
+         "expression": "rate(1 minute)"
+         }],
+       "aws_region": "eu-west-1",
+       "s3_bucket": "cglambdatestbucket",
+       "lambda_handler": "app.lambda_handler",
+       "use_apigateway": false,
+       "http_methods": ["GET"],
+       "parameter_depth": 1,
+       "timeout_seconds": 300,
+       "memory_size": 128,
+       "use_precompiled_packages": true
+    },
+    "dev_api": {
+       "project_name": "slack_bot_flask",
+       "keep_warm": false,
+       "debug": true,
+       "log_level": "DEBUG",
+       "aws_region": "eu-west-1",
+       "s3_bucket": "cglambdatestbucket",
+       "app_function": "app.app",
+       "http_methods": ["GET"],
+       "parameter_depth": 1,
+       "timeout_seconds": 300,
+       "memory_size": 128,
+       "use_precompiled_packages": true
+    },
+    "prod": {
+      "project_name": "slack_bot_flask",
+      "profile_name": "god",
+      "events": [{
+        "function": "mymodule.myfunc",
+        "expression": "rate(5 minutes)"
+        }],
+      "authorizer": {
+        "function": "authmodule.lambda_handler"
+      },
+      "aws_region": "eu-west-1",
+      "s3_bucket": "cglambdatestbucket",
+      "app_function": "app.app",
+      "http_methods": ["GET"],
+      "parameter_depth": 1,
+      "memory_size": 512,
+      "use_precompiled_packages": true
+    }
+}
