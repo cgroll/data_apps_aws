@@ -14,16 +14,19 @@ def lambda_handler(event=None, context=None):
     
     logger.info('Lambda function invoked index()')
 
-    # print(f"Received event:\n{event}\nWith context:\n{context}")
-    # print(event.keys())
+    print(f"Received event:\n{event}\nWith context:\n{context}")
 
-    # narrowed_down_text = event['body']
-    # print(f"Somewhere in here is the slack input text: {narrowed_down_text}")
-
-    return jsonify(
-        response_type='in_channel',
-        text='<https://youtu.be/frszEJb0aOo|General Kenobi!>',
-    )
+    try:
+        print(event.keys())
+        narrowed_down_text = event['body']
+        print(f"Somewhere in here is the slack input text: {narrowed_down_text}")
+    except:
+        print('Lambda function inputs not as expected. Probably called from different access point')
+    
+    return {
+        "statusCode": 200,
+        "body": json.dumps(payload),
+    }
 
 if __name__ == '__main__':
     app.run(debug=True)
