@@ -85,6 +85,11 @@ https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-i-using-the-sa
 https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-ii-template-and-architecture.html
 https://aws.amazon.com/blogs/compute/working-with-aws-lambda-and-lambda-layers-in-aws-sam/
 
+Remove stack from AWS:
+
+```
+aws cloudformation delete-stack --stack-name SlackBotStack --region eu-west-1 --profile god
+```
 
 ## MySQL database on AWS
 

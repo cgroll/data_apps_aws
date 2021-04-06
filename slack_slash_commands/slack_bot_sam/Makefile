@@ -9,4 +9,4 @@ build:
 
 .PHONY: deploy
 deploy:
-	sam deploy --profile god --region eu-west-1 --template-file packaged.yaml --stack-name SlackBotStack --capabilities CAPABILITY_IAM --parameter-overrides 'ParameterKey=ISDEPLOYED,ParameterValue=True ParameterKey=SLACKURL,ParameterValue=${SLACK_WEBHOOK} ParameterKey=RAPID_API_TOKEN,ParameterValue=${RAPID_API_TOKEN}'
+	sam deploy --profile god --region eu-west-1 --template-file packaged.yaml --stack-name SlashCommandsStack --capabilities CAPABILITY_IAM --parameter-overrides 'ParameterKey=ISDEPLOYED,ParameterValue=True ParameterKey=SLACKURL,ParameterValue=${SLACK_WEBHOOK} ParameterKey=RAPID_API_TOKEN,ParameterValue=${RAPID_API_TOKEN}'

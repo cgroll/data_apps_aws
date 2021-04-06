@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  slack_bot_sam
+  slash_commands_sam
 
-  Sample SAM Template for slack_bot_sam
+  Sample SAM Template for slash_commands_sam
 
 # Open TODOs:
 # - split out lambda layer (how can this be maintained by AWS SAM?)
@@ -35,7 +35,7 @@ Globals:
       Variables:
         IS_DEPLOYED: !Ref ISDEPLOYED
         slack_webhook: !Ref SLACKURL
-		  rapid_api_token: !Ref RAPID_API_TOKEN
+        rapid_api_token: !Ref RAPID_API_TOKEN
 
 Resources:
   SlashCmdFunctionWeather:
