@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 DESCRIPTION = 'Data analysis automated on AWS'
 LONG_DESCRIPTION = 'Data analysis automated on AWS'
@@ -23,8 +23,9 @@ setup(name=DISTNAME,
         url=URL,
         version=VERSION,
         download_url=DOWNLOAD_URL,
+        package_dir={"": "data_apps_aws"},
         install_requires=install_requires,
-        packages=['data_apps_aws', 'data_apps_aws.src_data_pipes'],
+        packages=find_packages(),
         classifiers=[
                      'Intended Audience :: Science/Research',
                      'Programming Language :: Python :: 2.7',
