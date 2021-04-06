@@ -1,4 +1,4 @@
 requests
 pandas
 tabulate
-git+https://github.com/cgroll/data_apps_aws.git#egg=data_apps_aws
+git+https://github.com/cgroll/data_apps_aws.git
