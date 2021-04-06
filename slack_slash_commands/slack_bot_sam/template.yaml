@@ -22,7 +22,7 @@ Parameters:
         Description: 'Required. The Database username'
         Type: 'String'
 
-    RAPID_API_TOKEN:
+    RAPIDAPITOKEN:
         Description: 'Required. API token to RAPID_API'
         Type: 'String'
 
@@ -35,7 +35,7 @@ Globals:
       Variables:
         IS_DEPLOYED: !Ref ISDEPLOYED
         slack_webhook: !Ref SLACKURL
-        rapid_api_token: !Ref RAPID_API_TOKEN
+        rapid_api_token: !Ref RAPIDAPITOKEN
 
 Resources:
   SlashCmdFunctionWeather:
