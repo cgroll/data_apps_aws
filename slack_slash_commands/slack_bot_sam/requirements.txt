@@ -1,4 +1,4 @@
 requests
 pandas
 tabulate
-git+https://github.com/cgroll/data_apps_aws.git
+/home/chris/research/data_apps_aws/dist/data_apps_aws-0.1.dev0-py3-none-any.whl
