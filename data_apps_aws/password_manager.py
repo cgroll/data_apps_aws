@@ -63,6 +63,9 @@ if IS_DEPLOYED == "True":
         'fred': {'api_token': getenv_save('fred_api_token')
                  },
 
+        'rapidAPI': {'api_token': getenv_save('rapid_api_token')
+                 },
+
         'slack_webhook': {'url': getenv_save('slack_webhook')
                  },
 
@@ -102,6 +105,9 @@ else:
                    },
 
         'fred': {'api_token': get_credtls('research/fred/api_token.gpg', gpg_passphrase)
+                 },
+
+        'rapidAPI': {'api_token': get_credtls('research/rapidAPI/api_token.gpg', gpg_passphrase)
                  },
 
         'slack_webhook': {'url': get_credtls('research/slack_webhook/url.gpg', gpg_passphrase)

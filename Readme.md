@@ -34,6 +34,16 @@ http://notebook-html-file-server.s3-website-eu-west-1.amazonaws.com/
 - add last-updated timestamps to database
 - allow incremental data update
 
+## GPG password secrets
+
+Manage gpg encrypted passwords:
+https://www.passwordstore.org/
+
+- list all entries: `pass`
+- add new entry: `pass insert rapidAPI/api_token`
+- get password: `pass rapidAPI/api_token `
+
+
 ## Python packages
 
 https://python-packaging.readthedocs.io/en/latest/minimal.html
