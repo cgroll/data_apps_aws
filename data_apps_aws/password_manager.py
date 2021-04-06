@@ -110,6 +110,9 @@ else:
         'rapidAPI': {'api_token': get_credtls('research/rapidAPI/api_token.gpg', gpg_passphrase)
                  },
 
+        'name_prism': {'api_token': get_credtls('research/name_prism/api_token.gpg', gpg_passphrase)
+                 },
+
         'slack_webhook': {'url': get_credtls('research/slack_webhook/url.gpg', gpg_passphrase)
                  },
 

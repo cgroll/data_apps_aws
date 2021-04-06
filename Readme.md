@@ -62,8 +62,8 @@ Manage gpg encrypted passwords:
 https://www.passwordstore.org/
 
 - list all entries: `pass`
-- add new entry: `pass insert rapidAPI/api_token`
-- get password: `pass rapidAPI/api_token `
+- add new entry: `pass insert research/rapidAPI/api_token`
+- get password: `pass research/rapidAPI/api_token `
 
 
 ## Python packages
