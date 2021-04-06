@@ -27,3 +27,14 @@ zappa update prod
 zappa invoke prod 'app.lambda_handler'
 zappa undeploy
 ```
+
+
+## Resources:
+
+https://renzolucioni.com/serverless-slash-commands-with-python/
+
+- slack app setup
+- deployment of flask app with zappa
+- delayed responses: slack commands require a response within 3
+  seconds. Hence, one needs to deal with cold-start problems and long
+  running code segments

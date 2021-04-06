@@ -1,3 +1,25 @@
+# Package deploy
+
+```
+make deploy_pkg
+```
+
+
+Create / use empty virtualenv with sole purpose of deployment:
+
+```
+virtualenv -p /usr/bin/python3.7 venv_deploy
+source venv_deploy/bin/activate
+```
+
+Create latest wheel file:
+```
+python setup.py clean --all bdist_wheel clean --all
+```
+
+Note: make sure that all subfolders of data_apps_aws/data_apps_aws are
+included in `setup.py` file
+
 # Data apps with AWS
 
 Data analyses, automated in the cloud.
@@ -80,6 +102,16 @@ https://github.com/nficano/python-lambda
 
 
 ## AWS SAM
+
+Needs to be installed once from a zip file. After that it is available
+on a system level.
+
+- get linux zip file from here:
+  https://github.com/aws/aws-sam-cli/releases (e.g.
+  aws-sam-cli-linux-x86_64.zip)
+- unzip
+- execute ./install
+
 
 https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-i-using-the-sam-cli.html
 https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-ii-template-and-architecture.html

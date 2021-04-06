@@ -10,3 +10,7 @@ events/
 tests/
 data_apps_aws.egg-info/
 /slack_bots/Makefile
+venv_deploy/
+dist/
+slack_slash_commands/slack_bot_sam/.aws-sam/
+slack_slash_commands/slack_bot_sam/packaged.yaml
