@@ -22,6 +22,10 @@ Parameters:
         Description: 'Required. The Database username'
         Type: 'String'
 
+    RAPID_API_TOKEN:
+        Description: 'Required. API token to RAPID_API'
+        Type: 'String'
+
 Globals:
   Function:
     Timeout: 600
@@ -31,17 +35,18 @@ Globals:
       Variables:
         IS_DEPLOYED: !Ref ISDEPLOYED
         slack_webhook: !Ref SLACKURL
+		  rapid_api_token: !Ref RAPID_API_TOKEN
 
 Resources:
-  SlackBotFunction:
+  SlashCmdFunctionWeather:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: .
-      Handler: lambda_slack_bot_request.lambda_handler
+      Handler: lambda_weather.lambda_handler
       Runtime: python3.7
       Events:
-        SlackBotRequest:
+        WeatherRequest:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /SlackBotRequest
+            Path: /WeatherRequest
             Method: post
