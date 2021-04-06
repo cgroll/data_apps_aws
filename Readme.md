@@ -34,6 +34,16 @@ http://notebook-html-file-server.s3-website-eu-west-1.amazonaws.com/
 - add last-updated timestamps to database
 - allow incremental data update
 
+## GPG password secrets
+
+Manage gpg encrypted passwords:
+https://www.passwordstore.org/
+
+- list all entries: `pass`
+- add new entry: `pass insert rapidAPI/api_token`
+- get password: `pass rapidAPI/api_token `
+
+
 ## Python packages
 
 https://python-packaging.readthedocs.io/en/latest/minimal.html
@@ -75,6 +85,11 @@ https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-i-using-the-sa
 https://alexharv074.github.io/2019/03/02/introduction-to-sam-part-ii-template-and-architecture.html
 https://aws.amazon.com/blogs/compute/working-with-aws-lambda-and-lambda-layers-in-aws-sam/
 
+Remove stack from AWS:
+
+```
+aws cloudformation delete-stack --stack-name SlackBotStack --region eu-west-1 --profile god
+```
 
 ## MySQL database on AWS
 

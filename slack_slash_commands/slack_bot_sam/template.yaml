@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  slash_commands_sam
+
+  Sample SAM Template for slash_commands_sam
+
+# Open TODOs:
+# - split out lambda layer (how can this be maintained by AWS SAM?)
+# - use AWS parameter store to transmit secret environment variables
+#   during deploy
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+
+Parameters:
+
+    ISDEPLOYED:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    SLACKURL:
+        Description: 'Required. The Database username'
+        Type: 'String'
+
+    RAPID_API_TOKEN:
+        Description: 'Required. API token to RAPID_API'
+        Type: 'String'
+
+Globals:
+  Function:
+    Timeout: 600
+    MemorySize: 2048
+    Runtime: python3.7
+    Environment:
+      Variables:
+        IS_DEPLOYED: !Ref ISDEPLOYED
+        slack_webhook: !Ref SLACKURL
+        rapid_api_token: !Ref RAPID_API_TOKEN
+
+Resources:
+  SlashCmdFunctionWeather:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: .
+      Handler: lambda_weather.lambda_handler
+      Runtime: python3.7
+      Events:
+        WeatherRequest:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /WeatherRequest
+            Method: post

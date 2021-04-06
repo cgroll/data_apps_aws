@@ -1,0 +1,20 @@
+{
+    "prod": {
+      "project_name": "slack_bot_flask",
+      "profile_name": "god",
+      "events": [{
+        "function": "mymodule.myfunc",
+        "expression": "rate(5 minutes)"
+        }],
+      "authorizer": {
+        "function": "authmodule.lambda_handler"
+      },
+      "aws_region": "eu-west-1",
+      "s3_bucket": "cglambdatestbucket",
+      "app_function": "app.app",
+      "http_methods": ["GET"],
+      "parameter_depth": 1,
+      "memory_size": 512,
+      "use_precompiled_packages": true
+    }
+}
