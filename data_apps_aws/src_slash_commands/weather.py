@@ -47,10 +47,10 @@ def get_astronomy_info(response_dict):
 def get_weather_info(response_dict):
 
     all_dates = [this_date_data['date'] for this_date_data in response_dict['items']]
-    min_temps = [this_date_data['temperature']['min'] for this_date_data in response_dict['items']]
+    all_weekdays = [pd.to_datetime(this_date).strftime('%a') for this_date in all_dates]
+    forecasts = pd.DataFrame(all_weekdays, index=all_dates, columns=['day'])
 
-    forecasts = pd.DataFrame(min_temps, index=all_dates, columns=['min_temp'])
-
+    forecasts['min_temp'] = [this_date_data['temperature']['min'] for this_date_data in response_dict['items']]
     forecasts['max_temp'] = [this_date_data['temperature']['max'] for this_date_data in response_dict['items']]
     forecasts['sun_hours'] = [this_date_data['sunHours'] for this_date_data in response_dict['items']]
     forecasts['rain_prob'] = [this_date_data['prec']['probability'] for this_date_data in response_dict['items']]
@@ -104,7 +104,6 @@ def emojify_weather(forecasts_export):
 
     return forecasts_export
 
-
 def slackify_forecasts(forecasts):
 
     forecasts_export = forecasts.reset_index()
@@ -113,7 +112,27 @@ def slackify_forecasts(forecasts):
     # translate to table print string
     table_str = tabulate(forecasts_export, tablefmt="simple", headers="keys", showindex=False)
 
-    return table_str
+    table_str_payload = {'blocks': [
+        {
+            "type": "rich_text",
+            "elements": [
+                {
+                    "type": "rich_text_section",
+                    "elements": [
+                        {
+                            "type": "text",
+                            "text": table_str,
+                            "style": {
+                                "code": True
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]}
+
+    return table_str_payload
 
 def slackify_sun_moon_times(sun_moon_times):
 

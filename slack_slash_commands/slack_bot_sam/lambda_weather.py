@@ -14,12 +14,9 @@ def lambda_handler(event, context):
         print('Catched error due to unexpected function call')
 
     forecasts, sun_moon_times = slash_weather()
-    table_str = slackify_forecasts(forecasts)
+    table_str_payload = slackify_forecasts(forecasts)
     
     return {
         "statusCode": 200,
-        "body": json.dumps({
-            "text": table_str,
-            "message": 'Not sure whether this is needed',
-        }),
+        "body": json.dumps(table_str_payload),
     }
