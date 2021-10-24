@@ -152,7 +152,7 @@ def get_service_credentials_local(db_name, credentials_type):
                      "url": get_credtls('research/bfv_data/url.gpg', gpg_passphrase),
                       }
     elif db_name == 'openai':
-        credentials_dict = {"api_token": "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"}
+        credentials_dict = {"api_token": get_credtls('research/open_ai/api_token.gpg', gpg_passphrase)}
 
     else:
         raise ValueError(f'Not credentials added for service {db_name} yet')
