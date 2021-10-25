@@ -1,19 +1,21 @@
 import sqlalchemy
 import pandas as pd
 
-from data_apps_aws.password_manager import get_db_password, get_db_url, get_db_user
+from data_apps_aws.password_manager import get_service_credentials_dict
 
 def get_engine_str(db_environment):
+    
+    credentials_dict = get_service_credentials_dict(db_environment)
+
     # Retrieve username, password, url
-    this_db_pwd = get_db_password(db_environment)
-    this_db_url = get_db_url(db_environment)
-    this_db_user = get_db_user(db_environment)
+    this_db_pwd = credentials_dict['password']
+    this_db_url = credentials_dict['url']
+    this_db_user = credentials_dict['user']
 
     # SQLalchemy way
     engine = 'mysql+pymysql://' + this_db_user + ':' + this_db_pwd + '@' + this_db_url
 
     return engine
-
 
 def get_db_engine(db_environment):
     """
@@ -25,6 +27,7 @@ def get_db_engine(db_environment):
     Returns:
         DB engine
     """
+
     engine = get_engine_str(db_environment)
     db_engine = sqlalchemy.create_engine(engine)
 

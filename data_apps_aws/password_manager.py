@@ -49,7 +49,7 @@ def getenv_save(this_env_var):
 IS_DEPLOYED = os.getenv('IS_DEPLOYED', "False")
 
 
-def get_service_credentials_cloud(db_name, credentials_type):
+def get_service_credentials_dict_cloud(db_name):
 
 
     if db_name == 'quandl':
@@ -94,10 +94,15 @@ def get_service_credentials_cloud(db_name, credentials_type):
     else:
         raise ValueError(f'Not credentials added for service {db_name} yet')
 
+    return credentials_dict
+
+def get_service_credentials_cloud(db_name, credentials_type):
+
+    credentials_dict = get_service_credentials_dict_cloud(db_name)
+    
     return credentials_dict[credentials_type]
 
-
-def get_service_credentials_local(db_name, credentials_type):
+def get_service_credentials_dict_local(db_name):
 
     # get passphrase from file
     try:
@@ -157,8 +162,13 @@ def get_service_credentials_local(db_name, credentials_type):
     else:
         raise ValueError(f'Not credentials added for service {db_name} yet')
 
-    return credentials_dict[credentials_type]
+    return credentials_dict
 
+def get_service_credentials_local(db_name, credentials_type):
+
+    credentials_dict = get_service_credentials_dict_local(db_name)
+    
+    return credentials_dict[credentials_type]
 
 def get_service_credentials(db_name, credentials_type):
 
@@ -166,6 +176,13 @@ def get_service_credentials(db_name, credentials_type):
         return get_service_credentials_cloud(db_name, credentials_type)
     else:
         return get_service_credentials_local(db_name, credentials_type)
+
+def get_service_credentials_dict(db_name):
+
+    if IS_DEPLOYED == "True":
+        return get_service_credentials_dict_cloud(db_name)
+    else:
+        return get_service_credentials_dict_local(db_name)
 
 
 def get_api_token(db_name):
