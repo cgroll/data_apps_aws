@@ -1,18 +1,20 @@
-sam build
-sam package --template-file template.yaml --s3-bucket cglambdatestbucket --output-template-file packaged.yaml
-sam deploy --template-file packaged.yaml --stack-name FredMetadataStack --capabilities CAPABILITY_IAM
+- sam build
+- sam package --template-file template.yaml --s3-bucket cglambdatestbucket --output-template-file packaged.yaml
+- sam deploy --template-file packaged.yaml --stack-name FredMetadataStack --capabilities CAPABILITY_IAM
 
 Locally install dependencies and upload to S3:
-sam build && sam package --s3-bucket cglambdatestbucket --output-template-file packaged.yaml
+
+- sam build && sam package --s3-bucket cglambdatestbucket --output-template-file packaged.yaml
 
 
 
 Clean-up:
-aws cloudformation delete-stack --stack-name FredMetadataStack --region eu-west-1
 
-aws cloudformation delete-stack --stack-name sam-app --region region
-aws cloudformation delete-stack --stack-name aws-sam-stack-name --region eu-west-1
-aws cloudformation delete-stack --stack-name aws-sam-stack-name2 --region eu-west-1
+- aws cloudformation delete-stack --stack-name FredMetadataStack --region eu-west-1
+
+- aws cloudformation delete-stack --stack-name sam-app --region region
+- aws cloudformation delete-stack --stack-name aws-sam-stack-name --region eu-west-1
+- aws cloudformation delete-stack --stack-name aws-sam-stack-name2 --region eu-west-1
 
 # Database tables
 
